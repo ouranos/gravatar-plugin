@@ -10,28 +10,40 @@ describe "gravatar_url with a custom default URL" do
     DEFAULT_OPTIONS[:default] = "no_avatar.png"
     @url = gravatar_url("somewhere")
   end
-  
+
   it "should include the \"default\" argument in the result" do
     @url.should match(/&default=no_avatar.png/)
   end
-  
+
   after(:each) do
     DEFAULT_OPTIONS.merge!(@original_options)
   end
-  
+
 end
 
 describe "gravatar_url with default settings" do
   before(:each) do
     @url = gravatar_url("somewhere")
   end
-  
+
   it "should have a nil default URL" do
     DEFAULT_OPTIONS[:default].should be_nil
   end
-  
+
   it "should not include the \"default\" argument in the result" do
     @url.should_not match(/&default=/)
-  end  
-  
+  end
+
+end
+
+describe "gravatar_url with test_local_path setting for tests" do
+  before(:each) do
+    DEFAULT_OPTIONS[:test_local_path] = 'test_url'
+    @url = gravatar_url("somewhere")
+  end
+
+  it "should match the test_local_path" do
+    @url.should match(/^test_url/)
+  end
+
 end
